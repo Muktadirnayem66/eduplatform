@@ -14,17 +14,19 @@ import { CourseActions } from "../../_components/course-action";
 import { getModule } from "@/queries/module";
 import { replaceMongoIdArray } from "@/lib/convertData";
 import { boolean } from "zod";
+import { ModuleActions } from "./_components/module-action";
 
 const Module = async ({ params:{courseId, moduleId} }) => {
+  
   const modules = await getModule(moduleId)
     const lesson = replaceMongoIdArray(modules?.lessonIds).sort((a,b)=>a.order - b.order)
   
   return (
     <>
-      <AlertBanner
+     {!modules?.active &&  (<AlertBanner
         label="This module is unpublished. It will not be visible in the course."
         variant="warning"
-      />
+      />)}
 
       <div className="p-6">
         <div className="flex items-center justify-between">
@@ -37,7 +39,7 @@ const Module = async ({ params:{courseId, moduleId} }) => {
               Back to course setup
             </Link>
             <div className="flex items-center justify-end">
-              <CourseActions />
+              <ModuleActions module={modules} courseId={courseId} />
             </div>
           </div>
         </div>
@@ -55,7 +57,7 @@ const Module = async ({ params:{courseId, moduleId} }) => {
                 <IconBadge icon={BookOpenCheck} />
                 <h2 className="text-xl">Module Lessons</h2>
               </div>
-              <LessonForm initialData={lesson} moduleId={moduleId} />
+              <LessonForm initialData={lesson} moduleId={moduleId} courseId={courseId} />
             </div>
           </div>
           <div>

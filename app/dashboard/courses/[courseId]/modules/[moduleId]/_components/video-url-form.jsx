@@ -19,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { VideoPlayer } from "@/components/video-player";
+import { updateLesson } from "@/app/actions/lesson";
+import { formatDuration } from "@/lib/data";
 
 const formSchema = z.object({
   url: z.string().min(1, {
@@ -32,21 +34,38 @@ const formSchema = z.object({
 export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
+  const [state, setState] = useState({
+    url:initialData?.url,
+    duration:formatDuration(initialData?.duration)
+  })
 
   const toggleEdit = () => setIsEditing((current) => !current);
+  const formData = {...initialData, duration: formatDuration(initialData?.duration)}
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: state,
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values) => {
     try {
-      toast.success("Lesson updated");
-      toggleEdit();
-      router.refresh();
+      const payload = {}
+      payload["video_url"] = values?.url
+
+      const duration = values?.duration
+      const splited = duration.split(":")
+
+      if(splited.length === 3){
+        payload["duration"] = splited[0] * 3600 + splited[1] * 60 + splited[2] * 1
+        await updateLesson(lessonId, payload)
+        toast.success("Lesson updated");
+        toggleEdit();
+        router.refresh();
+      }else{
+        toast.error("The duration format must be hh:mm:ss`");
+      }
     } catch {
       toast.error("Something went wrong");
     }
@@ -70,10 +89,10 @@ export const VideoUrlForm = ({ initialData, courseId, lessonId }) => {
       {!isEditing && (
         <>
           <p className="text-sm mt-2">
-            {"https://www.youtube.com/embed/Cn4G2lZ_g2I?si=8FxqU8_NU6rYOrG1"}
+            {state?.url}
           </p>
           <div className="mt-6">
-            <VideoPlayer />
+            <VideoPlayer  url={state?.url}/>
           </div>
         </>
       )}
