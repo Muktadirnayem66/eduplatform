@@ -22,7 +22,7 @@ import { useRouter } from "next/navigation";
 import { PlusCircle } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { addQuizToQuizSet } from "@/app/actions/quizSet";
+import { addQuizToQuizSet } from "@/app/actions/quiz";
 
 const formSchema = z.object({
   title: z

@@ -6,6 +6,7 @@ import { Testimonial } from "@/model/testimonial-model";
 import { User } from "@/model/user-model";
 import { getEnrollmentForCourse } from "./enrollments";
 import { getTestimonialForCourse } from "./testimonial";
+import { Lesson } from "@/model/lesson-model";
 
 export async function getCourseList() {
   const course = await Course.find({active:true})
@@ -59,6 +60,11 @@ export async function getCourseDetails(id) {
     .populate({
       path: "modules",
       model: Module,
+      populate:{
+        path:"lessonIds",
+        model:Lesson
+      }
+    
     })
     .lean();
   return replaceMongoIdInObject(course);

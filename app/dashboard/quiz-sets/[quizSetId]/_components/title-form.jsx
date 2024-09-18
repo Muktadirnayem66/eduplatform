@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateQuizSet } from "@/app/actions/quizSet";
+import { updateQuizSet } from "@/app/actions/quiz";
 
 const formSchema = z.object({
   title: z.string().min(1, {

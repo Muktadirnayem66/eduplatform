@@ -1,6 +1,7 @@
 import { CourseProgress } from "@/components/course-progress";
 import { Badge } from "@/components/ui/badge";
 import { getCategoriesDetails } from "@/queries/categories";
+import { getCourseDetails } from "@/queries/courses";
 import { getAReport } from "@/queries/reports";
 import { BookOpen } from "lucide-react";
 import Image from "next/image";
@@ -14,13 +15,19 @@ const EnrolledCourseCard = async ({enrollment}) => {
     
     const filter = {course:enrollment?.course?._id, student:enrollment?.student?._id} 
     const report = await getAReport(filter)
-    
-    const totalCompletedModule = report?.totalCompletedModeules?.length
+    const courseDetails = await getCourseDetails(enrollment?.course?._id)
+	const totalModuleCount = courseDetails?.modules?.length
+
+
+    const totalCompletedModule = report?.totalCompletedModeules ? report?.totalCompletedModeules?.length : 0
+
+	const totalProgress = totalModuleCount ? (totalCompletedModule/totalModuleCount) * 100 : 0
 
     const quizzes = report?.quizAssessment?.assessments
-    const totalQuizzes = quizzes.length
+    const totalQuizzes = quizzes?.length ?? 0	
 
-    const quizzesTaken = quizzes.filter(q=>q.attempted)
+
+    const quizzesTaken = quizzes ?  quizzes.filter(q=>q.attempted) : []
 
     const totalCorrect = quizzesTaken.map((quiz)=>{
         const item = quiz.options
@@ -30,7 +37,7 @@ const EnrolledCourseCard = async ({enrollment}) => {
     }).filter((elem)=>elem.length > 0 ).flat()
 
     const marksFromQuizzes = totalCorrect?.length * 5;
-    const otherMarks = report?.quizAssessment?.otherMarks;
+    const otherMarks = report?.quizAssessment?.otherMarks ?? 0;
     const totalMarks = (marksFromQuizzes + otherMarks)
     return (
         <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
@@ -104,7 +111,7 @@ const EnrolledCourseCard = async ({enrollment}) => {
 
 					<CourseProgress
 						size="sm"
-						value={80}
+						value={totalProgress}
 						variant={110 === 100 ? "success" : ""}
 					/>
 				</div>
