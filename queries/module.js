@@ -31,3 +31,15 @@ export async function getModule(moduleId) {
     }
     
 }
+
+
+export async function getModuleBySlug(moduleSlug) {
+    try {
+        const modules = await Module.findOne({slug:moduleSlug}).lean()
+        return replaceMongoIdInObject(modules)
+        
+    } catch (err) {
+        throw new Error(err)
+    }
+    
+}

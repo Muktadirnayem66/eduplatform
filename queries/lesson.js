@@ -19,3 +19,18 @@ export async function create(LessionData) {
     }
     
 }
+
+
+export async function getLessonBySlug(slug) {
+    try {
+        
+        const lesson = await Lesson.findOne({slug:slug}).lean()
+
+        return replaceMongoIdInObject(lesson)
+    } catch (err) {
+
+        throw new Error(err)
+        
+    }
+    
+}
