@@ -4,6 +4,7 @@ import EnrolledCourseCard from "../../component/enrolled-courseCard";
 import { auth } from "@/auth";
 import { getUserByEmail } from "@/queries/users";
 import { getEnrollmentsForUser } from "@/queries/enrollments";
+import Link from "next/link";
 
 async function EnrolledCourses() {
 	const session = await auth()
@@ -24,7 +25,10 @@ async function EnrolledCourses() {
 					<>
 					{
 						enrollments.map((enrollment)=>(
-							<EnrolledCourseCard key={enrollment?.id} enrollment={enrollment}/>
+							<Link href={`/courses/${enrollment.course._id.toString()}/lesson`}
+							 key={enrollment?.id}>
+							<EnrolledCourseCard  enrollment={enrollment}/>
+							</Link>
 						))
 					}
 					</>
