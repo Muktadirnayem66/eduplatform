@@ -7,11 +7,19 @@ import { SidebarModules } from "./sidebar-modules";
 import { getCourseDetails } from "@/queries/courses";
 import { Watch } from "@/model/watch-model";
 import { getLoggedInUser } from "@/lib/loggedin-user";
+import { getAReport } from "@/queries/reports";
 
 export const CourseSidebar = async ({courseId}) => {
 
   const course = await getCourseDetails(courseId)
   const loggedInUser = await getLoggedInUser()
+
+  const report = await getAReport({courseId: courseId, student:loggedInUser.id })
+
+  const totalCompletedModules = report?.totalCompletedModeules ? report?.totalCompletedModeules.length : 0
+  const totalModules = course?.modules ? course?.modules.length : 0
+
+  const totalProgress = (totalModules > 0) ? (totalCompletedModules/totalModules) * 100 : 0
 
   const updatedModules = await Promise.all(course.modules.map(async(modules)=>{
     const moduleId = modules._id.toString()
@@ -36,7 +44,7 @@ export const CourseSidebar = async ({courseId}) => {
               <div className="p-8 flex flex-col border-b">
                   <h1 className="font-semibold">Reactive Accelerator</h1>
                   <div className="mt-10">
-                      <CourseProgress variant="success" value={80} />
+                      <CourseProgress variant="success" value={totalProgress} />
                   </div>
               </div>
 
