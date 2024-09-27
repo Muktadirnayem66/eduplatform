@@ -23,6 +23,10 @@ const reportSchema = new Schema({
     quizAssessment:{    
         type:Schema.ObjectId,
         ref:"Assessment"
+    },
+    completion_date:{
+        required:false,
+        type:Date
     }
 })
 
