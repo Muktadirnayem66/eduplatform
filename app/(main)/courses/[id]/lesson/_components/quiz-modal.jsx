@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useState } from "react";
-function QuizModal({ quizes }) {
+function QuizModal({ quizes, courseId, quizSetId  }) {
   const [open, setOpen] = useState(false);
   const totalQuizes = quizes?.length;
   const [quizIndex, setQuizIndex] = useState(0);

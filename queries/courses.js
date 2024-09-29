@@ -7,6 +7,8 @@ import { User } from "@/model/user-model";
 import { getEnrollmentForCourse } from "./enrollments";
 import { getTestimonialForCourse } from "./testimonial";
 import { Lesson } from "@/model/lesson-model";
+import { Quizset } from "@/model/quizset-model";
+import { Quiz } from "@/model/quizzes-model";
 
 export async function getCourseList() {
   const course = await Course.find({active:true})
@@ -65,6 +67,14 @@ export async function getCourseDetails(id) {
         model:Lesson
       }
     
+    })
+    .populate({
+      path:"quizSet",
+      model:Quizset,
+      populate:{
+        path:"quizIds",
+        model:Quiz
+      }
     })
     .lean();
   return replaceMongoIdInObject(course);
