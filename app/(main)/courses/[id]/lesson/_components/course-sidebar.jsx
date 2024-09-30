@@ -51,7 +51,9 @@ export const CourseSidebar = async ({courseId}) => {
               </div>
 
               <SidebarModules courseId={courseId} modules={updatedModules} />
+              <div className="w-full px-4 lg:px-14 pt-10 border-t">
                {quizSet &&  <Quiz courseId={courseId} quizSet={quizSet} isTaken={isQuizComplete}/>}
+                </div>
               <div className="w-full px-6">
                   <DownloadCertificate courseId={courseId} totalProgress={totalProgress} />
                   <GiveReview courseId={courseId} />
