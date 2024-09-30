@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 
   
-import FormatMyDate from '@/lib/data';
+import {FormatMyDate} from '@/lib/date';
 import CourseOverview from './CourseOverview';
 import CourseCuriculam from './CourseCuriculam';
 import CourseInstructor from './CourseInstructor';

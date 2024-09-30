@@ -40,7 +40,7 @@ export const LessonVideo = ({ courseId, lesson, module }) => {
       }
     }
     started && updateLessonWatch();
-  }, [started]);
+  }, [started, courseId, module, lesson]);
 
   useEffect(() => {
     async function updateLessonWatch() {

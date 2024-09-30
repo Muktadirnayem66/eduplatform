@@ -5,7 +5,7 @@ import { getCourseDetails } from "@/queries/courses";
 import { getLoggedInUser } from "@/lib/loggedin-user";
 import { getAReport } from "@/queries/reports";
 
-import { formatMyDate } from "@/lib/date";
+import {FormatMyDate } from "@/lib/date";
 
 const kalamFontUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fonts/kalam/Kalam-Regular.ttf`;
 const kalamFontBytes = await fetch(kalamFontUrl).then((res) =>
@@ -34,7 +34,7 @@ export async function GET(request) {
 
     const report = await getAReport({ course: courseId, student:loggedInUser.id });
     
-    const completionDate = report?.completion_date ? formatMyDate(report?.completion_date) : formatMyDate(Date.now());
+    const completionDate = report?.completion_date ? FormatMyDate(report?.completion_date) : FormatMyDate(Date.now());
     
 
     const completionInfo = {
@@ -43,7 +43,7 @@ export async function GET(request) {
       courseName: course.title,
       instructor: `${course?.instructor?.firstName} ${course?.instructor?.lastName}`,
       instructorDesignation: `${course?.instructor?.designation}`,
-      sign: "/sign.png",
+      sign: "/logo.png",
     };
 
     

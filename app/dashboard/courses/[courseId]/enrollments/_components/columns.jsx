@@ -8,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import FormatMyDate from "@/lib/data";
+import {FormatMyDate} from "@/lib/date";
 import { cn } from "@/lib/utils";
 import { GraduationCap } from "lucide-react";
 import { ArrowUpDown, MoreHorizontal, Pencil } from "lucide-react";

@@ -20,7 +20,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { VideoPlayer } from "@/components/video-player";
 import { updateLesson } from "@/app/actions/lesson";
-import { formatDuration } from "@/lib/data";
+import { formatDuration } from "@/lib/date";
 
 const formSchema = z.object({
   url: z.string().min(1, {
