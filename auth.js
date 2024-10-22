@@ -18,7 +18,7 @@ const refreshAccessToken = async (token) => {
       });
     const response = await fetch(url, {
       headers: {
-        "Content-type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded'
       },
       method: "POST",
     });
